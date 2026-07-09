@@ -1,0 +1,6 @@
+@TransactionsCRUDv2_HostAddress = http://localhost:5171
+
+GET {{TransactionsCRUDv2_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
