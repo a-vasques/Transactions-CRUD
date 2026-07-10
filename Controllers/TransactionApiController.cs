@@ -19,8 +19,7 @@ namespace TransactionsCRUDv2.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTransaction([FromBody] Transaction transaction)
         {
-            var person = await _appDbContext.Person
-                .FindAsync(transaction.PersonId);
+            var person = await _appDbContext.Person.FindAsync(transaction.PersonId);
 
             if (person == null)
             {
@@ -29,8 +28,10 @@ namespace TransactionsCRUDv2.Controllers
 
             if (person.PersonAge < 18 && transaction.TransactionType == TransactionType.Income)
             {
-                return BadRequest("Minors can only sign up expenses.");
+                return BadRequest("Minors can only add expenses.");
             }
+
+            transaction.Person = person;
 
             _appDbContext.Transaction.Add(transaction);
             await _appDbContext.SaveChangesAsync();
