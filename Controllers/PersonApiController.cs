@@ -52,22 +52,5 @@ namespace TransactionsCRUDv2.Controllers
 
             return Ok(person);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> AddTransaction(Transaction transaction)
-        {
-            _appDbContext.Transaction.Add(transaction);
-            await _appDbContext.SaveChangesAsync();
-
-            return Ok(transaction);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetTransaction()
-        {
-            var transaction = await _appDbContext.Transaction.ToListAsync();
-
-            return Ok(transaction);
-        }
     }
 }
