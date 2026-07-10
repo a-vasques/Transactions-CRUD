@@ -13,5 +13,14 @@ namespace TransactionsCRUDv2.Data
 
         public DbSet<Person> Person {get; set;}
         public DbSet<Transaction> Transaction {get; set;}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.Person)
+                .WithMany()
+                .HasForeignKey(t => t.PersonId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

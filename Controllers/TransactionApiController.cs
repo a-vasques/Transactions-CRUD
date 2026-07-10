@@ -24,12 +24,12 @@ namespace TransactionsCRUDv2.Controllers
 
             if (person == null)
             {
-                return BadRequest("A pessoa informada não existe.");
+                return BadRequest("The person does not exist.");
             }
 
             if (person.PersonAge < 18 && transaction.TransactionType == TransactionType.Income)
             {
-                return BadRequest("Pessoas menores de idade podem apenas cadastrar despesas.");
+                return BadRequest("Minors can only sign up expenses.");
             }
 
             _appDbContext.Transaction.Add(transaction);

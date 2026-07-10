@@ -44,7 +44,7 @@ namespace TransactionsCRUDv2.Controllers
 
             if (person == null)
             {
-                return NotFound("A pessoa informada não existe");
+                return NotFound("The person does not exist.");
             }
 
             _appDbContext.Person.Remove(person);
