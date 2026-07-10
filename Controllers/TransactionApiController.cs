@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TransactionsCRUDv2.Data;
 using TransactionsCRUDv2.Models;
+using TransactionsCRUDv2.DTOs;
 
 namespace TransactionsCRUDv2.Controllers
 {
@@ -17,21 +18,27 @@ namespace TransactionsCRUDv2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddTransaction([FromBody] Transaction transaction)
+        public async Task<IActionResult> AddTransaction([FromBody] CreateTransactionDto transactionDto)
         {
-            var person = await _appDbContext.Person.FindAsync(transaction.PersonId);
+            var person = await _appDbContext.Person.FindAsync(transactionDto.PersonId);
 
             if (person == null)
             {
                 return BadRequest("The person does not exist.");
             }
 
-            if (person.PersonAge < 18 && transaction.TransactionType == TransactionType.Income)
+            if (person.PersonAge < 18 && transactionDto.TransactionType == TransactionType.Income)
             {
                 return BadRequest("Minors can only add expenses.");
             }
 
-            transaction.Person = person;
+            var transaction = new Transaction
+            {
+                TransactionDescription = transactionDto.TransactionDescription,
+                TransactionValue = transactionDto.TransactionValue,
+                TransactionType = transactionDto.TransactionType,
+                PersonId = transactionDto.PersonId
+            };
 
             _appDbContext.Transaction.Add(transaction);
             await _appDbContext.SaveChangesAsync();

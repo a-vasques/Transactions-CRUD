@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TransactionsCRUDv2.Data;
 using TransactionsCRUDv2.Models;
+using TransactionsCRUDv2.DTOs;
 
 namespace TransactionsCRUDv2.Controllers
 {
@@ -21,8 +18,14 @@ namespace TransactionsCRUDv2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPerson(Person person)
+        public async Task<IActionResult> AddPerson([FromBody] CreatePersonDto personDto)
         {
+            var person = new Person
+            {
+                PersonName = personDto.PersonName,
+                PersonAge = personDto.PersonAge
+            };
+
             _appDbContext.Person.Add(person);
             await _appDbContext.SaveChangesAsync();
 
