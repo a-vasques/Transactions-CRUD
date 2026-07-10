@@ -29,7 +29,7 @@ namespace TransactionsCRUDv2.Controllers
 
             if (person.PersonAge < 18 && transaction.TransactionType == TransactionType.Income)
             {
-                return BadRequest("Pessoas menores de idade só podem cadastrar despesas.");
+                return BadRequest("Pessoas menores de idade podem apenas cadastrar despesas.");
             }
 
             _appDbContext.Transaction.Add(transaction);
